@@ -14,12 +14,13 @@ public class ProjectRepository {
     private ProjectDao mProjectDao;
     private LiveData<List<Project>> allProjects;
 
-    public ProjectRepository(Application application) {
-        TodocDatabase db = Room.databaseBuilder(application.getApplicationContext(), TodocDatabase.class, "Task_Database").build();
-        ProjectDao mDao = db.mProjectDao();
-        List<Project> projects = (List<Project>) mDao.getProject();
+    public ProjectRepository(ProjectDao projectDao) {
+        this.mProjectDao= projectDao;
 
 
+    }
+    public LiveData<List<Project>> getAllProjects() {
+        return  this.mProjectDao.getAllProjects();
     }
 
 

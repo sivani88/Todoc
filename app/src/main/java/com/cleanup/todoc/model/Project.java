@@ -27,12 +27,11 @@ public class Project {
     private final int color;
 
 
-    private Project(long id, @NonNull String name, @ColorInt int color) {
+    public Project(long id, @NonNull String name, @ColorInt int color) {
         this.id = id;
         this.name = name;
         this.color = color;
     }
-
 
     @NonNull
     public static Project[] getAllProjects() {

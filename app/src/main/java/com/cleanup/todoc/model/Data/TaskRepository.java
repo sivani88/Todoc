@@ -9,20 +9,19 @@ import com.cleanup.todoc.model.Task;
 
 import java.util.List;
 
-public class TaskRepository {
+public class  TaskRepository {
     private TaskDao mTaskDao;
     private LiveData<List<Task>> allTasks;
 
-    public TaskRepository(Application application) {
-        TodocDatabase db = Room.databaseBuilder(application.getApplicationContext(), TodocDatabase.class, "Task_Database").build();
-        TaskDao taskDao = db.mTaskDao();
-        List<Task> tasks = (List<Task>) taskDao.getAllTasks();
+    public TaskRepository(TaskDao taskDao) {
+       this.mTaskDao= taskDao;
+
 
 
     }
 
-    LiveData<List<Task>> getAllTasks() {
-        return allTasks;
+    public LiveData<List<Task>> getAllTasks() {
+        return this.mTaskDao.getAllTasks();
 
     }
 
@@ -39,7 +38,7 @@ public class TaskRepository {
 
     }
 
-    public void deleteTask(LiveData<List<Task>> task) {
+    public void deleteTask(Task task) {
         TodocDatabase.databaseWriteExecutor.execute(() -> {
             mTaskDao.deleteTask(task);
         });

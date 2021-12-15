@@ -1,0 +1,155 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Project
+class TaskAZComparator
+class TaskZAComparator
+class TaskRecentComparator
+class TaskOldComparator
+class Task
+class TaskRepository
+class ProjectRepository
+interface ProjectDao
+interface TaskDao
+class TaskViewModel
+
+Task+----TaskAZComparator
+Task+----TaskZAComparator
+Task+----TaskOldComparator
+Task+----TaskRecentComparator
+
+
+class Project {
+Fields
+-final id:long
+-final name : String
+-final color : int
+--
+constructor()
++ Project(id:long, name: String, color: int)
+--
++ methods()
++getAllProjects(): static Project[]
++getProjectById(long id):static Project
++ getId(): long
+ +getName(): String
+  +getColor(): int
+  +toString(): String
+
+
+}
+class Task{
+-fields
+- id : long
+- projectId : long
+- name : String
+- creationTimestamp : long
+--
+constructor()
++Task(projectId: long, name: String, creationTimestamp: long)
+--
++ methods()
+ getId():long
+setId(id:long):void
+setProjectId(projectId: long) : void
+getProjectId(): Project
+getName(): String
+setName (name:String): void
+setCreationTimestamp (creationTimestamp:long): void
+getCreationTimestamp(): long
+
+
+}
+class TaskAZComparator{
+implements comparator
+--methods--
++ compare(left:Task, right:Task): int
+
+}
+class TaskZAComparator{
+implements comparator
+--methods--
++ compare(left:Task, right:Task): int
+
+}
+
+class TaskRecentComparator{
+implements comparator
+--methods--
++ compare(left:Task, right:Task): int
+
+}
+class TaskOldComparator{
+implements comparator
+--methods--
++ compare(left:Task, right:Task): int
+
+}
+
+interface ProjectDao{
+--methods--
++insertProject(Project project): void
++getProject((projectId: long):LiveData<List<Project>>
++getAllProjects():LiveData<List<Project>>
+
+}
+interface TaskDao{
+--methods--
++insert(Task task): void
++delete (Task task): void
++deleteAllTask(): void
+
++getAllTaskByName():LiveData<List<Task>>
++getAllTaskByProject(projectId: long):LiveData<List<Task>>
++getAllTaskByDate():LiveData<List<Task>>
++getAllTasks():LiveData<List<Task>>
+
+
+}
+class TaskRepository{
+fields
+- mTaskDao:TaskDao
+- allTasks :LiveData<List<Task>>
+--
++constructor
+askRepository(TaskDao taskDao)
+--
++methods
+ getAllTasks():LiveData<List<Task>>
+ insertTask(Task task): void
+updateTask(Task task): void
+ deleteTask(Task task): void
+deleteAllTasks(LiveData<List<Task>> allTasks): void
+
+}
+class ProjectRepository{
+fields
+-  mProjectDao: ProjectDao
+- allProjects : LiveData<List<Project>>
++constructor
++ProjectRepository(ProjectDao projectDao)
+--
++methods
+ getAllProjects():LiveData<Li<Project>>
+ insertProject(Project project): void
+
+}
+class TaskViewModel{
+-fields
+- final mTaskRepository: TaskRepository
+- final mProjectRepository: ProjectRepository
+-final executor: Executor
+- projects: LiveData<List<Project>>
+--
++constructor
+
++TaskViewModel( taskRepository TaskRepository,  projectRepository ProjectRepository, executor  Executor)
+--
++methods
+init():void
+ getAllProjects(): LiveData<List<Project>>
+ getAllTasks():LiveData<List<Task>>
+ insertProject(Project project): void
+
+}
+@enduml

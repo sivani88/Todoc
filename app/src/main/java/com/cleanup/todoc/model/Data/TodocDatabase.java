@@ -26,7 +26,7 @@ public abstract class TodocDatabase extends RoomDatabase {
 
     static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    static TodocDatabase getDatabase(final Context context){
+    public static TodocDatabase getDatabase(final Context context){
         if (mInstance == null){
             synchronized (TodocDatabase.class) {
                 if(mInstance == null) {

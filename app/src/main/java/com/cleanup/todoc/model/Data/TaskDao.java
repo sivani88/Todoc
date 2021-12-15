@@ -21,21 +21,21 @@ public interface TaskDao {
     void UpdateTask(Task task);
 
     @Delete
-    void deleteTask(LiveData<List<Task>> task);
+    void deleteTask(Task task);
 
-    @Query("DELETE FROM task_table")
+    @Query("DELETE FROM Task")
     void deleteAllTasks();
 
-    @Query("SELECT * FROM task_table ORDER BY `name_task`")
+    @Query("SELECT * FROM Task ORDER BY `name_task`")
     LiveData<List<Task>> getAllTasksByName();
 
-    @Query("SELECT * FROM task_table ORDER BY `project_id`")
-    LiveData<List<Task>> getAllTasksByProject(long projectId);
+    @Query("SELECT * FROM Task ORDER BY 'project_id'")
+    LiveData<List<Task>> getAllTasksByProject();
 
-    @Query("SELECT * FROM task_table ORDER BY 'TimeStamp'")
+    @Query("SELECT * FROM Task ORDER BY 'TimeStamp'")
     LiveData<List<Task>> getAllTasksByDate();
 
-    @Query("SELECT * FROM task_table")
+    @Query("SELECT * FROM Task")
     LiveData<List<Task>> getAllTasks();
 
 

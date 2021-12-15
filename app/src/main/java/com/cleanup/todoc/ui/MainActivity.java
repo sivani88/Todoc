@@ -15,61 +15,37 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cleanup.todoc.R;
+import com.cleanup.todoc.model.Injection.Injection;
+import com.cleanup.todoc.model.Injection.TodocFactory;
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
-/**
- * <p>Home activity of the application which is displayed when the user opens the app.</p>
- * <p>Displays the list of tasks.</p>
- *
- * @author Gaëtan HERFRAY
- */
+
+// @author Gaëtan HERFRAY
+
 public class MainActivity extends AppCompatActivity implements TasksAdapter.DeleteTaskListener {
-    /**
-     * List of all projects available in the application
-     */
-    private final Project[] allProjects = Project.getAllProjects();
 
-    /**
-     * List of all current tasks of the application
-     */
+    TaskViewModel mViewModel;
+    private List<Project> allProjects;
     @NonNull
     private final ArrayList<Task> tasks = new ArrayList<>();
-
-    /**
-     * The adapter which handles the list of tasks
-     */
     private final TasksAdapter adapter = new TasksAdapter(tasks, this);
-
-    /**
-     * The sort method to be used to display tasks
-     */
     @NonNull
     private SortMethod sortMethod = SortMethod.NONE;
-
-    /**
-     * Dialog to create a new task
-     */
     @Nullable
     public AlertDialog dialog = null;
-
-    /**
-     * EditText that allows user to set the name of a task
-     */
     @Nullable
     private EditText dialogEditText = null;
-
-    /**
-     * Spinner that allows the user to associate a project to a task
-     */
     @Nullable
     private Spinner dialogSpinner = null;
 
@@ -101,12 +77,35 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         listTasks.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         listTasks.setAdapter(adapter);
 
-        findViewById(R.id.fab_add_task).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showAddTaskDialog();
-            }
-        });
+
+        findViewById(R.id.fab_add_task).setOnClickListener(view ->
+                showAddTaskDialog());
+
+        this.provideViewModel();
+        this.getProject();
+        this.getTasks();
+    }
+
+
+    private void provideViewModel() {
+        TodocFactory mTodocFactory = Injection.provideTodocFactory(this);
+        this.mViewModel = new ViewModelProvider(this, mTodocFactory).get(TaskViewModel.class);
+        this.mViewModel.init();
+    }
+
+    private void getProject() {
+        if (this.mViewModel.getAllProjects() != null) {
+            this.mViewModel.getAllProjects().observe(this, this::updateProjects);
+        }
+    }
+
+    private void updateProjects(List<Project> projects) {
+        allProjects = projects;
+
+    }
+
+    private void getTasks() {
+        this.mViewModel.getAllTasks().observe(this, this::updateTasks);
     }
 
     @Override
@@ -129,15 +128,13 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             sortMethod = SortMethod.RECENT_FIRST;
         }
 
-        updateTasks();
-
+        getTasks();
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onDeleteTask(Task task) {
-        tasks.remove(task);
-        updateTasks();
+        this.mViewModel.delete(task);
     }
 
     /**
@@ -178,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
                 dialogInterface.dismiss();
             }
             // If name has been set, but project has not been set (this should never occur)
-            else{
+            else {
                 dialogInterface.dismiss();
             }
         }
@@ -202,20 +199,12 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         populateDialogSpinner();
     }
 
-    /**
-     * Adds the given task to the list of created tasks.
-     *
-     * @param task the task to be added to the list
-     */
     private void addTask(@NonNull Task task) {
-        tasks.add(task);
-        updateTasks();
+        this.mViewModel.insert(task);
     }
 
-    /**
-     * Updates the list of tasks in the UI
-     */
-    private void updateTasks() {
+
+    private void updateTasks(List<Task> tasks) {
         if (tasks.size() == 0) {
             lblNoTasks.setVisibility(View.VISIBLE);
             listTasks.setVisibility(View.GONE);

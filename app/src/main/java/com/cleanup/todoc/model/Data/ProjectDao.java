@@ -17,12 +17,13 @@ public interface ProjectDao {
     void insertProject(Project project);
 
     @Query(value = "SELECT * FROM project_table WHERE project_id = :projectId ")
-   LiveData<Project> getProject(long projectId);
-    //TODO a verifier
+   LiveData<List<Project>> getProject(long projectId);
+
 
 
     @Query("SELECT * FROM project_table")
-    LiveData<List<Project>> getProject();
+    LiveData<List<Project>> getAllProjects();
 
 
 }
+

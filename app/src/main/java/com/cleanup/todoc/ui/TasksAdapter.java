@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cleanup.todoc.R;
@@ -16,22 +17,20 @@ import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
- * <p>Adapter which handles the list of tasks to display in the dedicated RecyclerView.</p>
+ *
  *
  * @author Gaëtan HERFRAY
  */
 public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHolder> {
-    /**
-     * The list of tasks the adapter deals with
-     */
+
+
     @NonNull
     private List<Task> tasks;
 
-    /**
-     * The listener for when a task needs to be deleted
-     */
+
     @NonNull
     private final DeleteTaskListener deleteTaskListener;
 

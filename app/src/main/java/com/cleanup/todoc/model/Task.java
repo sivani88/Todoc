@@ -2,19 +2,20 @@ package com.cleanup.todoc.model;
 
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import java.util.Comparator;
 
 
-@Entity(tableName = "task_table")
+@Entity(foreignKeys = @ForeignKey(entity = Project.class, parentColumns = "project_id", childColumns = "project_id"))
 public class Task {
 
     @PrimaryKey(autoGenerate = true)
     private long id;
+
 
     @ColumnInfo(name = "project_id")
     private long projectId;
@@ -28,7 +29,15 @@ public class Task {
      */
     @ColumnInfo(name = "TimeStamp")
     private long creationTimestamp;
-    //TODO; a verifier
+
+    public long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(long projectId) {
+        this.projectId = projectId;
+    }
+
 
     public Task(Long projectId, @NonNull String name, long creationTimestamp) {
         this.setProjectId(projectId);
@@ -36,14 +45,14 @@ public class Task {
         this.setCreationTimestamp(creationTimestamp);
     }
 
+    public long getCreationTimestamp() {
+        return creationTimestamp;
+    }
+
     public long getId() {
         return id;
     }
 
-
-    private void setId(long id) {
-        this.id = id;
-    }
 
 
     private void setProjectId(Long projectId) {
@@ -68,6 +77,10 @@ public class Task {
 
     private void setCreationTimestamp(long creationTimestamp) {
         this.creationTimestamp = creationTimestamp;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     /**
