@@ -1,9 +1,8 @@
 package com.cleanup.todoc;
 
-import org.junit.internal.builders.JUnit4Builder;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
-
+@RunWith(AndroidJUnit4.class)
 public class TaskDaoTest {
 }
