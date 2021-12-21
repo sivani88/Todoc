@@ -56,7 +56,7 @@ public abstract class TodocDatabase extends RoomDatabase {
                 dao.getAllTasksByName();
                 //TODO a verifier
 
-                Task task = new Task(1L, "Netoyage des vitres", 11/11/2021);
+                Task task = new Task(1L, "Netoyage des vitres", 11/12/2021);
                 task = new Task(2L, "Entretient des pelouses", 28/11/2021);
                 dao.insertTask(task);
 

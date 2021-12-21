@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+
+
+
+User -> (Liste des taches)
+User -> (Ajouter une tache)
+User -> (Suprimer une tache)
+User -> (trier les taches)
+
+(trier les taches)<|...(par nom de projet De A_Z)
+(trier les taches)<|...(par nom de projet De Z_A)
+(trier les taches)<|...(par date la plus ancienne)
+(trier les taches)<|...(par date la plus recente)
+
+
+
+@enduml
