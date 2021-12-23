@@ -4,15 +4,15 @@
 
 
 
-User -> (Liste des taches)
-User -> (Ajouter une tache)
-User -> (Suprimer une tache)
-User -> (trier les taches)
+User -> (trier les tâches)
+User -> (Ajouter une tâche)
+User -> (Supprimer une tâche)
+User -> (Visualiser des tâches)
 
-(trier les taches)<|...(par nom de projet De A_Z)
-(trier les taches)<|...(par nom de projet De Z_A)
-(trier les taches)<|...(par date la plus ancienne)
-(trier les taches)<|...(par date la plus recente)
+(trier les tâches)<|...(par nom de projet De A_Z)
+(trier les tâches)<|...(par nom de projet De Z_A)
+(trier les tâches)<|...(par date la plus ancienne)
+(trier les tâches)<|...(par date la plus recente)
 
 
 

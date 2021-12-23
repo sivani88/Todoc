@@ -15,7 +15,7 @@ interface TaskDao
 class TaskViewModel
 class TodocFactory
 class Injection
-class TasksAdapter.RecyclerViewAdapter
+class TasksAdapter
 class MainActivity
 class TodocDatabase
 class MainActivity.SortMethod
@@ -36,11 +36,11 @@ MainActivity+--MainActivity.SortMethod
 MainActivity o--MainActivity.SortMethod
 MainActivity o--TaskViewModel
 MainActivity ...|>TasksAdapter.DeleteTaskListener
-TasksAdapter.DeleteTaskListener --o TasksAdapter.RecyclerViewAdapter
-TasksAdapter.DeleteTaskListener --+ TasksAdapter.RecyclerViewAdapter
-MainActivity o-- TasksAdapter.RecyclerViewAdapter
+TasksAdapter.DeleteTaskListener --o TasksAdapter
+TasksAdapter.DeleteTaskListener --+ TasksAdapter
+MainActivity o-- TasksAdapter
 TaskViewModel o--TaskRepository
-TaskDao --o TaskRepository
+TaskDao <--TaskRepository
 TodocFactory o--TaskRepository
 ProjectRepository o-- ProjectDao
 ProjectRepository --o TodocFactory
@@ -280,13 +280,14 @@ class MainActivity.SortMethod{
 --methods--
 
 }
-+class TasksAdapter.DeleteTaskListener{
++interface TasksAdapter.DeleteTaskListener{
 -fields--
 -methods--
 +oDeleteTask((task Task): void
 
 }
-+class TasksAdapter.RecyclerViewAdapter{
++class TasksAdapter{
+extends RecyclerView.Adapter
 -fields--
 - tasks : List<Task>
 - final deleteTaskListener : DeleteTaskListener
