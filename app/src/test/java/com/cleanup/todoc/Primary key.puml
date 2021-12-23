@@ -1,0 +1,49 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+ Project ||--o{ Task
+
+
+class Task{
+-fields
+- id : long
+- projectId : long
+- name : String
+- creationTimestamp : long
+--
+constructor()
++Task(projectId: long, name: String, creationTimestamp: long)
+--
++ methods()
+ getId():long
+setId(id:long):void
+setProjectId(projectId: long) : void
+getProjectId(): Project
+getName(): String
+setName (name:String): void
+setCreationTimestamp (creationTimestamp:long): void
+getCreationTimestamp(): long
+
+
+}
+class Project {
+Fields
+-final id:long
+-final name : String
+-final color : int
+--
+constructor()
++ Project(id:long, name: String, color: int)
+--
++ methods()
++getAllProjects(): static Project[]
++getProjectById(long id):static Project
++ getId(): long
+ +getName(): String
+  +getColor(): int
+  +toString(): String
+
+
+}
+
+@enduml

@@ -17,7 +17,7 @@ class TodocFactory
 class Injection
 class TasksAdapter.RecyclerViewAdapter
 class MainActivity
-Abstract class TodocDatabase
+class TodocDatabase
 class MainActivity.SortMethod
 class TasksAdapter.DeleteTaskListener
 
@@ -25,6 +25,7 @@ Task+----TaskAZComparator
 Task+----TaskZAComparator
 Task+----TaskOldComparator
 Task+----TaskRecentComparator
+
 
 MainActivity.SortMethod o-- MainActivity.SortMethod
 MainActivity.SortMethod o-- MainActivity.SortMethod
@@ -44,7 +45,13 @@ TodocFactory o--TaskRepository
 ProjectRepository o-- ProjectDao
 ProjectRepository --o TodocFactory
 ProjectRepository --o TaskViewModel
+Project ||--o{ Task
+TodocDatabase o-- Injection
 TodocDatabase o-- TodocDatabase
+
+
+
+
 
 
 
@@ -185,6 +192,7 @@ class TaskViewModel{
  +insert(Task task)): void
 +delete(Task task)
 }
+
 class TodocFactory{
 --implements ViewModelProvider.Factory--
 -fields
@@ -201,7 +209,8 @@ class TodocFactory{
 +create(modelClass Class<T>): T
 
 }
- Abstract TodocDatabase{
+class TodocDatabase{
+ Abstract
 --extends RoomDatabase--
 fields
 --
