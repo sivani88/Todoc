@@ -49,18 +49,11 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     @Nullable
     private Spinner dialogSpinner = null;
 
-    /**
-     * The RecyclerView which displays the list of tasks
-     */
-    // Suppress warning is safe because variable is initialized in onCreate
     @SuppressWarnings("NullableProblems")
     @NonNull
     private RecyclerView listTasks;
 
-    /**
-     * The TextView displaying the empty state
-     */
-    // Suppress warning is safe because variable is initialized in onCreate
+
     @SuppressWarnings("NullableProblems")
     @NonNull
     private TextView lblNoTasks;
@@ -137,11 +130,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         this.mViewModel.delete(task);
     }
 
-    /**
-     * Called when the user clicks on the positive button of the Create Task Dialog.
-     *
-     * @param dialogInterface the current displayed dialog
-     */
+
     private void onPositiveButtonClick(DialogInterface dialogInterface) {
         // If dialog is open
         if (dialogEditText != null && dialogSpinner != null) {
@@ -160,7 +149,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             }
             // If both project and name of the task have been set
             else if (taskProject != null) {
-                // TODO: Replace this by id of persisted task
                 long id = (long) (Math.random() * 50000);
 
 
@@ -288,25 +276,15 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      * List of all possible sort methods for task
      */
     private enum SortMethod {
-        /**
-         * Sort alphabetical by name
-         */
+
         ALPHABETICAL,
-        /**
-         * Inverted sort alphabetical by name
-         */
+
         ALPHABETICAL_INVERTED,
-        /**
-         * Lastly created first
-         */
+
         RECENT_FIRST,
-        /**
-         * First created first
-         */
+
         OLD_FIRST,
-        /**
-         * No sort
-         */
+
         NONE
     }
 }

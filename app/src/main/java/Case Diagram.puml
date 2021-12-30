@@ -7,7 +7,7 @@
 User -> (trier les tâches)
 User -> (Ajouter une tâche)
 User -> (Supprimer une tâche)
-User -> (Visualiser des tâches)
+User -> (Visualiser les tâches)
 
 (trier les tâches)<|...(par nom de projet De A_Z)
 (trier les tâches)<|...(par nom de projet De Z_A)

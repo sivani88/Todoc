@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey;
 public class Project {
 
     @ColumnInfo(name = "project_id")
-   @PrimaryKey
+    @PrimaryKey
     private final long id;
 
     @ColumnInfo(name = "name_project")
@@ -67,11 +67,7 @@ public class Project {
         return id;
     }
 
-    /**
-     * Returns the name of the project.
-     *
-     * @return the name of the project
-     */
+
     @NonNull
     public String getName() {
         return name;

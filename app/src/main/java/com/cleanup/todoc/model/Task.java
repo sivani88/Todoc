@@ -54,7 +54,6 @@ public class Task {
     }
 
 
-
     private void setProjectId(Long projectId) {
         this.projectId = projectId;
     }

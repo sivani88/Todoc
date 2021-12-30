@@ -1,0 +1,301 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Project
+class Task
+class TaskAZComparator
+class TaskZAComparator
+class TaskRecentComparator
+class TaskOldComparator
+
+class TaskRepository
+class ProjectRepository
+interface ProjectDao
+interface TaskDao
+class TaskViewModel
+class TodocFactory
+class Injection
+class TasksAdapter
+class MainActivity
+class TodocDatabase
+class MainActivity.SortMethod
+class TasksAdapter.DeleteTaskListener
+
+
+MainActivity --> TasksAdapter
+MainActivity ..|> TasksAdapter.DeleteTaskListener
+TasksAdapter.DeleteTaskListener --+ TasksAdapter
+MainActivity --> Injection
+MainActivity --> TaskViewModel
+
+MainActivity.SortMethod o-- MainActivity.SortMethod
+MainActivity.SortMethod o-- MainActivity.SortMethod
+MainActivity.SortMethod o-- MainActivity.SortMethod
+MainActivity.SortMethod o-- MainActivity.SortMethod
+MainActivity.SortMethod o-- MainActivity.SortMethod
+
+MainActivity+--MainActivity.SortMethod
+MainActivity o--MainActivity.SortMethod
+
+TaskRepository <-- Injection
+Injection --> TodocFactory
+TaskRepository <-- TodocFactory
+TaskRepository --> TaskDao
+ProjectRepository --> ProjectDao
+ProjectRepository <-- TodocFactory
+TaskViewModel --> ProjectRepository
+TaskViewModel --> TaskRepository
+
+Task+----TaskAZComparator
+Task+----TaskZAComparator
+Task+----TaskOldComparator
+Task+----TaskRecentComparator
+
+TodocDatabase --> ProjectDao
+TodocDatabase --> TaskDao
+
+
+class Project {
+Fields
+-final id:long
+-final name : String
+-final color : int
+--
+constructor()
++ Project(id:long, name: String, color: int)
+--
++ methods()
++getAllProjects(): static Project[]
++getProjectById(long id):static Project
++ getId(): long
+ +getName(): String
+  +getColor(): int
+  +toString(): String
+
+
+}
+class Task{
+-fields
+- id : long
+- projectId : long
+- name : String
+- creationTimestamp : long
+--
+constructor()
++Task(projectId: long, name: String, creationTimestamp: long)
+--
++ methods()
+ getId():long
+setId(id:long):void
+setProjectId(projectId: long) : void
+getProjectId(): Project
+getName(): String
+setName (name:String): void
+setCreationTimestamp (creationTimestamp:long): void
+getCreationTimestamp(): long
+
+
+}
+class TaskAZComparator{
+implements comparator
+--methods--
++ compare(left:Task, right:Task): int
+
+}
+class TaskZAComparator{
+implements comparator
+--methods--
++ compare(left:Task, right:Task): int
+
+}
+
+class TaskRecentComparator{
+implements comparator
+--methods--
++ compare(left:Task, right:Task): int
+
+}
+class TaskOldComparator{
+implements comparator
+--methods--
++ compare(left:Task, right:Task): int
+
+}
+
+interface ProjectDao{
+--methods--
++insertProject(Project project): void
++getProject((projectId: long):LiveData<List<Project>>
++getAllProjects():LiveData<List<Project>>
+
+}
+interface TaskDao{
+--methods--
++insert(Task task): void
++delete (Task task): void
++deleteAllTask(): void
+
++getAllTaskByName():LiveData<List<Task>>
++getAllTaskByProject(projectId: long):LiveData<List<Task>>
++getAllTaskByDate():LiveData<List<Task>>
++getAllTasks():LiveData<List<Task>>
+
+
+}
+class TaskRepository{
+fields
+- mTaskDao:TaskDao
+- allTasks :LiveData<List<Task>>
+--
++constructor
+askRepository(TaskDao taskDao)
+--
++methods
+ getAllTasks():LiveData<List<Task>>
+ insertTask(Task task): void
+updateTask(Task task): void
+ deleteTask(Task task): void
+deleteAllTasks(LiveData<List<Task>> allTasks): void
+
+}
+class ProjectRepository{
+fields
+-  mProjectDao: ProjectDao
+- allProjects : LiveData<List<Project>>
++constructor
++ProjectRepository(ProjectDao projectDao)
+--
++methods
+ getAllProjects():LiveData<Li<Project>>
+ insertProject(Project project): void
+
+}
+class TaskViewModel{
+-fields
+- final mTaskRepository: TaskRepository
+- final mProjectRepository: ProjectRepository
+-final executor: Executor
+- projects: LiveData<List<Project>>
+--
++constructor
+
++TaskViewModel( taskRepository TaskRepository,  projectRepository ProjectRepository, executor  Executor)
+--
++methods
++init():void
+ +getAllProjects(): LiveData<List<Project>>
+ +getAllTasks():LiveData<List<Task>>
+ +insert(Task task)): void
++delete(Task task)
+}
+
+class TodocFactory{
+--implements ViewModelProvider.Factory--
+-fields
+- final mTaskRepository: TaskRepository
+- final mProjectRepository: ProjectRepository
+-final executor: Executor
+
+--
++constructor
+
++TodocFactory( taskRepository TaskRepository,  projectRepository ProjectRepository, executor  Executor)
+--
++methods
++create(modelClass Class<T>): T
+
+}
+class TodocDatabase{
+ Abstract
+--extends RoomDatabase--
+fields
+--
+constructor
+--
++methods
+getDatabase(context Context):TodocDatabase
+mInstance.mTaskDao(): TaskDao
+mInstance.mProjectDao(): ProjectDao
+
+
+}
+
+ class Injection{
+--fields--
+
+--constructor--
+
++methods
++provideTaskDataBase (context Context): TaskRepository(database.mTaskDao())
++provideProjectDataBase (context Context): ProjectRepository((database.mProjectDao()
++provideExecutor(): Executors.newSingleThreadExecutor()
++ provideTodocFactory (context Context):TodocFactory(mTaskDataRepository, mProjectDataRepository, executor)
+
+}
+class MainActivity{
+ extends AppCompactActivity
+implements TasksAdapter.DeleteTaskListener
+--
+--Fields--
+-allProjects: List<Project>
+- mViewModel: TaskViewModel
+-tasks ArrayList<Task> : ArrayList<>()
+-adapter: TaskAdapter(this, tasks)
+-sortMethod : SortMetod.NONE
++ dialog : AlertDialog
+-dialogEditText : EditText
+-dialogSpinner: Spinner
+-listTasks : RecyclerView
+lblNoTasks : TextView
+
+--constructor--
++methods
++onCreate(savedInstanceState Bundle): void
+- provideViewModel(): void
+- getProject(): void
+- updateProjects(List<Project> projects): void
+-getTasks(): void
++onCreateOptionMenu(menu Menu): boolean
++onOptionsItemSelected (menu Menu): boolean
++oDeleteTask(task Task): void
+- onPositiveButtonClick(dialogInterface DialogInterface): void
+- addTask((task Task): void
+- updateTasks(List<Task>x tasks): void
+- getAddTaskDialog(): AlertDialog
+-populateDialogSpinner(): void
+
+}
+class MainActivity.SortMethod{
+-fields--
++ final ALPHABETICAL: SortMethod...
++ final ALPHABETICAL_INVERTED: SortMethod...
++ final RECENT_FIRST : SortMethod...
++ final OLD_FIRST : SortMethod...
++ final NONE : SortMethod...
+--constructor--
+--methods--
+
+}
++interface TasksAdapter.DeleteTaskListener{
+-fields--
+-methods--
++oDeleteTask((task Task): void
+
+}
++class TasksAdapter{
+extends RecyclerView.Adapter
+-fields--
+- tasks : List<Task>
+- final deleteTaskListener : DeleteTaskListener
+--
+-constructor--
+ TasksAdapter(tasks List<Task> ,   deleteTaskListener DeleteTaskListener)
+-methods--
+ updateTasks( tasks List<Task>): void
+ + onCreateViewHolder(viewGroup viewGroup, viewType int):TaskViewHolder
++onBindViewHolder(taskViewHolder TaskViewHolder, positon int): void
++ getItemCount(): int
+
+}
+
+@enduml

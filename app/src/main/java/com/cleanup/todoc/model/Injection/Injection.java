@@ -14,17 +14,19 @@ public class Injection {
         TodocDatabase database = TodocDatabase.getDatabase(context);
         return new TaskRepository(database.mTaskDao());
     }
+
     public static ProjectRepository provideProjectDataBase(Context context) {
         TodocDatabase database = TodocDatabase.getDatabase(context);
-        return  new ProjectRepository(database.mProjectDao());
+        return new ProjectRepository(database.mProjectDao());
     }
+
     public static Executor provideExecutor() {
         return Executors.newSingleThreadExecutor();
     }
 
     public static TodocFactory provideTodocFactory(Context context) {
-        TaskRepository  mTaskDataRepository = provideTaskDataBase(context);
-        ProjectRepository mProjectDataRepository= provideProjectDataBase(context);
+        TaskRepository mTaskDataRepository = provideTaskDataBase(context);
+        ProjectRepository mProjectDataRepository = provideProjectDataBase(context);
         Executor executor = provideExecutor();
         return new TodocFactory(mTaskDataRepository, mProjectDataRepository, executor);
     }
