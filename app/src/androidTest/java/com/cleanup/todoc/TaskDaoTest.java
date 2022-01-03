@@ -66,11 +66,7 @@ public class TaskDaoTest {
         assertTrue(projects.get(2).getName().equals(PROJECTS[2].getName()) && projects.get(2).getId() == PROJECTS[2].getId());
     }
 
-    @Test
-    public void getTasksWhenNoTaskInserted() throws InterruptedException {
-        List<Task> tasks = LivedataTestUtils.getValue(this.database.mTaskDao().getAllTasks());
-        assertTrue(tasks.isEmpty());
-    }
+
 
     @Test
     public void insertAndGetTasks() throws InterruptedException {
@@ -92,13 +88,10 @@ public class TaskDaoTest {
             this.database.mProjectDao().insertProject(project);
         }
         int nbTasks = LivedataTestUtils.getValue(this.database.mTaskDao().getAllTasks()).size();
-        // j ajoute  ue task new task one et je vérifie que elle est bien supprimée  de la base de données
-        this.database.mTaskDao().insertTask(NEW_TASK_ONE);
-
-        Task taskAdded = LivedataTestUtils.getValue(this.database.mTaskDao().getAllTasks()).get(0);
-        this.database.mTaskDao().deleteTask(taskAdded);
-
-        List<Task> tasks = LivedataTestUtils.getValue(this.database.mTaskDao().getAllTasks());
-        assertEquals(nbTasks, tasks.size());
+        // j ajoute  une task new task one et je vérifie que elle est bien supprimée  de la base de données
+        NEW_TASK_ONE.setId(this.database.mTaskDao().insertTask(NEW_TASK_ONE));
+        assertEquals(nbTasks+1, LivedataTestUtils.getValue(this.database.mTaskDao().getAllTasks()).size());
+        assertEquals(1, this.database.mTaskDao().deleteTask(NEW_TASK_ONE));
+        assertEquals(nbTasks, LivedataTestUtils.getValue(this.database.mTaskDao().getAllTasks()).size());
     }
 }

@@ -14,6 +14,7 @@ import java.util.Comparator;
 public class Task {
 
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
     private long id;
 
 
