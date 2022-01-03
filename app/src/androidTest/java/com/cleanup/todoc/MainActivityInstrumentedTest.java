@@ -55,6 +55,7 @@ public class MainActivityInstrumentedTest {
         assertThat(listTasks.getAdapter().getItemCount(), equalTo(initialNumberOfTasks+1));
 
         onView(withRecyclerView(R.id.list_tasks).atPositionOnView(initialNumberOfTasks,R.id.img_delete)).perform(click());
+
         assertThat(listTasks.getAdapter().getItemCount(), equalTo(initialNumberOfTasks));
         for (int i = 0 ; i < initialNumberOfTasks; i++) {
             onView(withRecyclerView(R.id.list_tasks).atPositionOnView(0,R.id.img_delete)).perform(click());

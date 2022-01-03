@@ -54,16 +54,18 @@ public class TaskDaoTest {
 
     @Test
     public void insertAndGetAllProjects() throws InterruptedException {
+        int initialSize = LivedataTestUtils.getValue(this.database.mProjectDao().getAllProjects()).size();
+        assertEquals(0, initialSize);
         for (Project project : PROJECTS) {
             this.database.mProjectDao().insertProject(project);
             // database vide initialise j'insere les projets  dans la dataBase via le dao
         }
         List<Project> projects = LivedataTestUtils.getValue(this.database.mProjectDao().getAllProjects());
           //je recupere les projets qu'il y a  dans la base de données et je teste qu'il y a les bonnes valeurs
-        assertEquals(3, projects.size());
-        assertTrue(projects.get(0).getName().equals(PROJECTS[0].getName()) && projects.get(0).getId() == PROJECTS[0].getId());
-        assertTrue(projects.get(1).getName().equals(PROJECTS[1].getName()) && projects.get(1).getId() == PROJECTS[1].getId());
-        assertTrue(projects.get(2).getName().equals(PROJECTS[2].getName()) && projects.get(2).getId() == PROJECTS[2].getId());
+        assertEquals(initialSize + 3, projects.size());
+        assertTrue(projects.get(initialSize + 0).getName().equals(PROJECTS[0].getName()) && projects.get(initialSize +0 ).getId() == PROJECTS[0].getId());
+        assertTrue(projects.get(initialSize + 1).getName().equals(PROJECTS[1].getName()) && projects.get(initialSize+ 1).getId() == PROJECTS[1].getId());
+        assertTrue(projects.get(initialSize +2 ).getName().equals(PROJECTS[2].getName()) && projects.get(initialSize+ 2).getId() == PROJECTS[2].getId());
     }
 
 

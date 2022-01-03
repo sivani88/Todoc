@@ -193,7 +193,9 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
 
     private void updateTasks(List<Task> tasks) {
+
         if (tasks.size() == 0) {
+            adapter.updateTasks(tasks);
             lblNoTasks.setVisibility(View.VISIBLE);
             listTasks.setVisibility(View.GONE);
         } else {
